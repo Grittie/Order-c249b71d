@@ -19,19 +19,28 @@ try {
     throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-echo " <h1> Welcome to the $db control panel </h1>";
+if (isset($_GET['seriesOrder'])) {
+    $order = $_GET['seriesOrder'];
 
-$seriesData = 'SELECT * FROM series';
+    if ($order == 'title') {
+        $seriesData = 'SELECT * FROM series ORDER BY title';
+    } else {
+        $seriesData = 'SELECT * FROM series ORDER BY rating';
+    }
+} else {
+    $seriesData = 'SELECT * FROM series';
+}
 
 $seriesQuery= $pdo->query($seriesData);
 $series = $seriesQuery->fetchAll(PDO::FETCH_ASSOC);
 
 echo "
+<h1> Welcome to the $db control panel </h1>
 <h2> Series </h2>
 <table>
     <tr>
-        <td style=\"font-weight:bold\"> Title </td>
-        <td style=\"font-weight:bold\"> Rating </td>
+        <td style=\"font-weight:bold\"><a href=index.php?seriesOrder=title> Title </a></td>
+        <td style=\"font-weight:bold\"><a href=index.php?seriesOrder=rating> Rating </a></td>
     </tr>
 ";
 foreach ($series as $row) {
@@ -45,7 +54,19 @@ foreach ($series as $row) {
 
 echo "</table>";
 
-$moviesData = 'SELECT * FROM movies';
+if (isset($_GET['moviesOrder'])) {
+    $order = $_GET['moviesOrder'];
+
+    if ($order == 'title') {
+        $moviesData = 'SELECT * FROM movies ORDER BY title';
+    } else {
+        $moviesData = 'SELECT * FROM movies ORDER BY duur';
+    }
+} else {
+    $moviesData = 'SELECT * FROM movies';
+}
+
+
 
 $moviesQuery= $pdo->query($moviesData);
 $movies = $moviesQuery->fetchAll(PDO::FETCH_ASSOC);
@@ -54,8 +75,8 @@ echo "
 <h2> Movies </h2>
 <table>
     <tr>
-        <td style=\"font-weight:bold\"> Title </td>
-        <td style=\"font-weight:bold\"> Duration </td>
+        <td style=\"font-weight:bold\"><a href=index.php?moviesOrder=title> Title </a></td>
+        <td style=\"font-weight:bold\"><a href=index.php?moviesOrder=duration> Duration </a></td>
     </tr>
 ";
 

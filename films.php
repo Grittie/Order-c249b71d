@@ -24,11 +24,11 @@ echo "<p><a href=\"index.php\"> Terug </a></p>";
 $id = $_GET['id'];
 $moviesData = "SELECT * FROM movies WHERE id='$id'";
 
-
 $moviesQuery= $pdo->query($moviesData);
 $movies = $moviesQuery->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($movies as $row) {
+
     echo '<h1>' . $row['title'] . '</h1>';
 
     echo '<p>' . "Release date: " .$row['datum_van_uitkomst'] . '</p>';
@@ -37,5 +37,6 @@ foreach ($movies as $row) {
     echo '<p>' . $row['description'] . '</p>';
 
     $videoId = $row["youtube_trailer_id"];
-    echo(" <iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/$videoId\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>");
+    echo(" <iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/$videoId\" frameborder=\"0\" 
+    allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>");
 }
